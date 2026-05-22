@@ -1,10 +1,7 @@
 import "./App.css";
 import logo from "./assets/smartTalk.svg";
 import addBtn from "./assets/add-30.png";
-import home from "./assets/home.svg";
 import msgIcon from "./assets/message.svg";
-import bookmark from "./assets/bookmark.svg";
-import upgrade from "./assets/rocket.svg";
 import smartTalkLogo from "./assets/smartTalkLogo.svg";
 import userIcon from "./assets/user-icon.png";
 import axios from "axios";
