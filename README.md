@@ -1,6 +1,23 @@
 # 💬 SmartTalk AI (Full Stack Chatbot)
 
-A full-stack ChatGPT-style AI chatbot with a **React frontend** and **Node.js/Express backend**, powered by the **OpenAI API**. This app mimics ChatGPT's behavior with streaming responses and a real-time UI.
+A full-stack ChatGPT style AI chatbot with a **React frontend** and **Node.js/Express backend**, powered by the **OpenAI API**. SmartTalk AI supports real-time conversations, PDF-based Retrieval-Augmented Generation (RAG), semantic search using embeddings, and document-aware responses through vector similarity search.
+
+---
+
+## 🧠 RAG Pipeline
+
+SmartTalk AI supports Retrieval-Augmented Generation (RAG) for document-aware conversations.
+
+### How it works
+
+1. Upload a PDF document
+2. Extract and chunk document text
+3. Generate embeddings using OpenAI
+4. Store embeddings in a vector store
+5. Perform semantic similarity search on user queries
+6. Inject relevant context into GPT responses
+
+This enables the chatbot to answer questions based on uploaded documents instead of relying only on general model knowledge.
 
 ---
 
@@ -14,6 +31,12 @@ A full-stack ChatGPT-style AI chatbot with a **React frontend** and **Node.js/Ex
 
 - Persists and restores chat history using a custom useLocalStorage React hook.
 
+- Supports PDF upload and document-aware conversations using Retrieval-Augmented Generation (RAG).
+
+- Implements semantic search using vector embeddings to retrieve relevant document chunks before generating AI responses.
+
+- Uses document chunking and vector storage for efficient context retrieval and improved response accuracy.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -22,6 +45,9 @@ A full-stack ChatGPT-style AI chatbot with a **React frontend** and **Node.js/Ex
 - **Backend:** Node.js, Express
 - **API Integration:** OpenAI (gpt-4.1)
 - **Markdown Rendering:** react-markdown
+- **AI/RAG:** LangChain, OpenAI Embeddings
+- **Vector Store:** MemoryVectorStore
+- **File Processing:** Multer, pdf-parse
 - **Hosting:** Vercel
 
 ---
@@ -95,7 +121,9 @@ smarttalk-ai/
 │   └── ...
 │
 ├── server/               # Express backend
-│   ├── server.js
+│   ├── server/
+│   |   ├── chunkText.js    # Utility for splitting document text into chunks
+│   |   ├── vectorStore.js   # Vector database configuration using embeddings
 │   ├── configs/
 │   │   └── openai.js
 │   ├──.env
@@ -113,6 +141,7 @@ smarttalk-ai/
 - Add dark/light theme toggle
 - Make it responsive
 - Support for image generation (DALL·E)
+- Add persistent vector database support (Chroma/Pinecone)
 
 ---
 

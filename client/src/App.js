@@ -5,13 +5,14 @@ import home from "./assets/home.svg";
 import msgIcon from "./assets/message.svg";
 import bookmark from "./assets/bookmark.svg";
 import upgrade from "./assets/rocket.svg";
-import sendBtn from "./assets/send.svg";
 import smartTalkLogo from "./assets/smartTalkLogo.svg";
 import userIcon from "./assets/user-icon.png";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { useState, useRef, useEffect } from "react";
 import useLocalStorage from "./useLocalStorage";
+import { FaPlus } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 
 function App() {
   const [input, setInput] = useState("");
@@ -40,10 +41,13 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://smarttalk-ai.vercel.app/api/chat",
+        "http://localhost:5000/api/chat",
         {
           prompt: [prompt],
-        }
+        },
+        {
+          withCredentials: true,
+        },
       );
       const systemText = response.data.message;
       clearInterval(loaderInterval);
@@ -65,6 +69,33 @@ function App() {
         return updated;
       });
       console.log(error.message);
+    }
+  };
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/upload",
+        formData,
+        {
+          withCredentials: true,
+        },
+      );
+      let uploaded = true;
+      if (uploaded) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "system",
+            content: `PDF uploaded successfully. You can now ask questions from it. ${res.data.chunks} chunks indexed.`,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.log("error");
     }
   };
 
@@ -120,20 +151,6 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="lowerSide">
-          <div className="listItems">
-            <img src={home} alt="home" className="listItemsImg" />
-            Home
-          </div>
-          <div className="listItems">
-            <img src={bookmark} alt="saved" className="listItemsImg" />
-            Saved
-          </div>
-          <div className="listItems">
-            <img src={upgrade} alt="upgrade" className="listItemsImg" />
-            Upgrade
-          </div>
-        </div>
       </div>
       <div className="main">
         <div className="chats">
@@ -161,7 +178,16 @@ function App() {
           <div ref={endOfMessages} />
         </div>
         <div className="chatFooter">
-          <div className="inp">
+          <div className="inp" style={{ display: "flex", padding: "0 10px" }}>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleUpload}
+            />
+            <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
+              <FaPlus size={15} />
+            </label>
             <input
               type="text"
               placeholder="Send a message"
@@ -172,13 +198,19 @@ function App() {
             />
             <button
               type="submit"
-              onClick={onClickHandler}
-              className="send"
               disabled={isLoading}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={onClickHandler}
             >
-              <img src={sendBtn} alt="send" />
+              <IoSend size={15} />
             </button>
           </div>
+
           <p>
             SmartTalk AI may produce inaccurate information about people, places
             or facts.
