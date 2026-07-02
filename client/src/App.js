@@ -6,7 +6,7 @@ import smartTalkLogo from "./assets/smartTalkLogo.svg";
 import userIcon from "./assets/user-icon.png";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { FaPlus } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
@@ -23,8 +23,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [loader, setLoader] = useState("");
 
-  useEffect(() => {
-    endOfMessages.current?.scrollIntoView({ behavior: "smooth" });
+  useLayoutEffect(() => {
+    endOfMessages.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
 
   const onClickHandler = async (e) => {
