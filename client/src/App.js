@@ -38,7 +38,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/chat",
+        "https://smarttalk-ai.vercel.app/api/chat",
         {
           prompt: [prompt],
         },
