@@ -38,7 +38,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://smarttalk-ai-weld.vercel.app/api/chat",
+        "https://smarttalk-ai.vercel.app/api/chat",
         {
           prompt: [prompt],
         },
@@ -75,7 +75,7 @@ function App() {
     formData.append("file", file);
     try {
       const res = await axios.post(
-        "https://smarttalk-ai-weld.vercel.app/api/upload",
+        "https://smarttalk-ai.vercel.app/api/upload",
         formData,
         {
           withCredentials: true,
